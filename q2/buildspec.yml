@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands: 
+      - pip3 install awscli
+  build:
+    commands:
+      - zip lambda_handler.zip email_lambda.py
+      - aws s3 cp lambda_handler.zip s3://av-a-a1-q2/lambda_handler.zip
+      - aws cloudformation validate-template --template-body file://template.yaml
+artifacts:
+  files: 
+    - '**/*'
